@@ -21,6 +21,8 @@ pip install -r requirements.txt
 ### 5. Test Endpoints 
 
 [Get specific citizen](http://127.0.0.1:8000/docs#/default/get_citizen_citizens__citizen_id__get)
+
+
 [Get all citizens](http://127.0.0.1:8000/docs#/default/list_citizens_citizens_get)
 
 **Note: The limit and offset has been included on the code in order to save time for processing the large number of rows.**

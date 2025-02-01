@@ -25,7 +25,7 @@ pip install -r requirements.txt
 
 **Note: The limit and offset has been included on the code in order to save time for processing the large number of rows.**
 
-### 6. Build and Run Docker Compuse up
+### 6. Build and Run Docker Compose up
 
 [Deployment on Docker](http://0.0.0.0:8000/docs)
 

@@ -31,7 +31,7 @@ class Citizen(BaseModel):
 
     class Config:
         orm_mode = True
-
+        
 # Function to get all citizens with pagination
 def get_all_citizens(limit: int = 10, offset: int = 0):
     session = SessionLocal()
@@ -39,6 +39,14 @@ def get_all_citizens(limit: int = 10, offset: int = 0):
     result = session.execute(query, {"limit": limit, "offset": offset}).fetchall()
     session.close()
     return result
+
+# Function to get a citizen by ID
+def get_citizen_by_id(citizen_id: int):
+    session = SessionLocal()
+    query = text("SELECT * FROM merged_citizens WHERE citizen_id = :citizen_id")
+    result = session.execute(query, {"citizen_id": citizen_id}).mappings().fetchone()  # Use mappings
+    session.close()
+    return result  # This will be a dictionary-like result
 
 # FastAPI route to get merged citizen data by citizen_id
 @app.get("/citizens/{citizen_id}", response_model=Citizen)
@@ -48,12 +56,13 @@ def get_citizen(citizen_id: int):
         raise HTTPException(status_code=404, detail="Citizen not found")
     
     return Citizen(
-        citizen_id=citizen["citizen_id"],
-        name=citizen["name"],
-        dob=citizen["dob"],
-        health_status=citizen["health_status"],
-        school_name=citizen["school_name"]
+        citizen_id=citizen["citizen_id"],  # Access by key
+        name=citizen["name"],               # Access by key
+        dob=citizen["dob"],                 # Access by key
+        health_status=citizen["health_status"],  # Access by key
+        school_name=citizen["school_name"]  # Access by key
     )
+
 
 # FastAPI route to get all merged citizens with pagination
 @app.get("/citizens", response_model=List[Citizen])
@@ -69,3 +78,19 @@ def list_citizens(limit: Optional[int] = Query(10, ge=1), offset: Optional[int] 
         health_status=c["health_status"],
         school_name=c["school_name"]
     ) for c in citizens]
+# FastAPI route to get all merged citizens with pagination
+# FastAPI route to get all merged citizens with pagination
+# @app.get("/citizens", response_model=List[Citizen])
+# def list_citizens(limit: Optional[int] = Query(10, ge=1), offset: Optional[int] = Query(0, ge=0)):
+#     citizens = get_all_citizens(limit=limit, offset=offset)
+#     if not citizens:
+#         raise HTTPException(status_code=404, detail="No citizens found")
+    
+#     return [Citizen(
+#         citizen_id=c["citizen_id"],
+#         name=c["name"],
+#         dob=c["dob"],
+#         health_status=c["health_status"],
+#         school_name=c["school_name"]
+#     ) for c in citizens]
+

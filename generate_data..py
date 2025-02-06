@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[4]:
-
-
 from faker import Faker
 import json
 import random
@@ -54,10 +48,3 @@ with open("education.json", "w") as f:
     json.dump(generate_education_data(100000), f, indent=4)
 
 print("JSON files generated successfully!")
-
-
-# In[ ]:
-
-
-
-
